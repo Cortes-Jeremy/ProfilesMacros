@@ -254,13 +254,13 @@ function MPS:LoadMacroProfile(name)
 
 			-- Patch <4.2 profiles, change all icons to questionmarks
 			if not keys[7] then
-				DB.profile[index][7] = 'INV_MISC_QUESTIONMARK'
-				keys[7] = 'INV_MISC_QUESTIONMARK'
+				DB.profile[index][7] = 1 --'INV_MISC_QUESTIONMARK'
+				keys[7] = 1 --'INV_MISC_QUESTIONMARK'
 			end
 
 			-- BUG: When we have "mod:" in our macro, icon of the mod will not update!
 			-- icon = 1
-			if string.find(keys[3],"mod:") or string.find(keys[3],"modifier:") then keys[7] = 'INV_MISC_QUESTIONMARK' end
+			if string.find(keys[3],"mod:") or string.find(keys[3],"modifier:") then keys[7] = 1 end
 
 			if index >= charMacros then -- CreateMacro must know if its a global or char macro
 				CreateMacro(keys[1], keys[7], keys[3], 1);
