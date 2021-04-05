@@ -1,7 +1,7 @@
 ## Title: Profiles: Macros
 ## Version: 2.3
 ## Author: Fulgerul
-## Interface: 40300
+## Interface: 30300
 ## SavedVariables: ProfilesMacrosG
 ## SavedVariablesPerCharacter: ProfilesMacros
 ## OptionalDeps: Outfitter WoWUnit Blizzard_MacroUI
