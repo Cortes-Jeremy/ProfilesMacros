@@ -1,0 +1,31 @@
+## Title: Profiles: Macros
+## Version: 2.3
+## Author: Fulgerul
+## Interface: 40300
+## SavedVariables: ProfilesMacrosG
+## SavedVariablesPerCharacter: ProfilesMacros
+## OptionalDeps: Outfitter WoWUnit Blizzard_MacroUI
+## Notes: Set up macroprofiles!
+## X-Curse-Packaged-Version: v2.3
+## X-Curse-Project-Name: Profiles: Macros
+## X-Curse-Project-ID: profiles-macros
+## X-Curse-Repository-ID: wow/profiles-macros/mainline
+
+Libs\usefull_lua_functions.lua
+Libs\LibStub\LibStub.lua
+Libs\CallbackHandler-1.0\CallbackHandler-1.0.xml
+Libs\AceAddon-3.0\AceAddon-3.0.xml
+Libs\AceEvent-3.0\AceEvent-3.0.xml
+Libs\AceTimer-3.0\AceTimer-3.0.xml
+Libs\AceDB-3.0\AceDB-3.0.xml
+Libs\AceDBOptions-3.0\AceDBOptions-3.0.xml
+Libs\AceLocale-3.0\AceLocale-3.0.xml
+Libs\AceConsole-3.0\AceConsole-3.0.xml
+Libs\AceGUI-3.0\AceGUI-3.0.xml
+Libs\AceConfig-3.0\AceConfig-3.0.xml
+Libs\AceHook-3.0\AceHook-3.0.xml
+
+
+Core-Macros.lua
+ProfilesHub.lua
+triggers\Manual Profiles.lua

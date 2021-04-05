@@ -1,0 +1,40 @@
+------------------------------------------------------------------------
+r108 | fulgerul | 2012-05-16 21:18:48 +0000 (Wed, 16 May 2012) | 4 lines
+Changed paths:
+   A /tags/v2.3 (from /trunk:107)
+
+* Loads last active profile when logging on.
+* Ace3 update.
+
+
+------------------------------------------------------------------------
+r107 | fulgerul | 2012-05-16 21:18:04 +0000 (Wed, 16 May 2012) | 1 line
+Changed paths:
+   M /trunk
+   M /trunk/Core-Macros.lua
+   M /trunk/Libs/AceConfig-3.0/AceConfigCmd-3.0/AceConfigCmd-3.0.lua
+   M /trunk/Libs/AceConfig-3.0/AceConfigDialog-3.0/AceConfigDialog-3.0.lua
+   M /trunk/Libs/AceConfig-3.0/AceConfigRegistry-3.0/AceConfigRegistry-3.0.lua
+   M /trunk/Libs/AceGUI-3.0/widgets/AceGUIContainer-Frame.lua
+   M /trunk/Libs/AceGUI-3.0/widgets/AceGUIWidget-MultiLineEditBox.lua
+   M /trunk/ProfilesMacros.toc
+
+Merging with dev.
+------------------------------------------------------------------------
+r102 | fulgerul | 2012-04-24 19:19:53 +0000 (Tue, 24 Apr 2012) | 1 line
+Changed paths:
+   M /trunk/Core-Macros.lua
+   M /trunk/ProfilesMacros.toc
+   M /trunk/triggers/Manual profiles.lua
+
+Minipatch inc, forgot to enable manual commands! :P
+------------------------------------------------------------------------
+r99 | fulgerul | 2012-04-20 20:16:56 +0000 (Fri, 20 Apr 2012) | 1 line
+Changed paths:
+   M /trunk
+   M /trunk/Core-Macros.lua
+   M /trunk/ProfilesHub.lua
+   M /trunk/ProfilesMacros.toc
+
+Export() now syncs with the other profiles!
+------------------------------------------------------------------------
