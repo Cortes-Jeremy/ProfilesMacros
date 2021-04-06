@@ -3,7 +3,7 @@
 ## X-Curse-Project-Name: AceGUI-3.0-SharedMediaWidgets
 ## X-Curse-Project-ID: ace-gui-3-0-shared-media-widgets
 ## X-Curse-Repository-ID: wow/ace-gui-3-0-shared-media-widgets/mainline
-## X-Curse-Packaged-Version: v2.3
+## X-Curse-Packaged-Version: v2.4.1
 ## X-Curse-Project-Name: Profiles: Macros
 ## X-Curse-Project-ID: profiles-macros
 ## X-Curse-Repository-ID: wow/profiles-macros/mainline

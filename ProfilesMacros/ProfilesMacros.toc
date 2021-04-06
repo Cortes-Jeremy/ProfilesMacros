@@ -1,12 +1,12 @@
 ## Title: Profiles: Macros
-## Version: 2.3
+## Version: 2.4.1
 ## Author: Fulgerul
 ## Interface: 30300
 ## SavedVariables: ProfilesMacrosG
 ## SavedVariablesPerCharacter: ProfilesMacros
 ## OptionalDeps: Outfitter WoWUnit Blizzard_MacroUI
 ## Notes: Set up macroprofiles!
-## X-Curse-Packaged-Version: v2.3
+## X-Curse-Packaged-Version: v2.4.1
 ## X-Curse-Project-Name: Profiles: Macros
 ## X-Curse-Project-ID: profiles-macros
 ## X-Curse-Repository-ID: wow/profiles-macros/mainline
@@ -27,5 +27,6 @@ Libs\AceHook-3.0\AceHook-3.0.xml
 
 
 Core-Macros.lua
+MPSOptions.lua
 ProfilesHub.lua
 triggers\Manual Profiles.lua

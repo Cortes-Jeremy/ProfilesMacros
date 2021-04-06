@@ -1,7 +1,7 @@
 ﻿-- TODO: Doing list commands in the channel you are in!
 -- Macro Profiles
-MPS_Version = "2.3"
-local WoWversion = 30300
+local MPS_Version = "2.4.1"
+local WoWversion = 30300 --50200
 MPS = LibStub("AceAddon-3.0"):NewAddon("Profiles: Macros", "AceConsole-3.0", "AceEvent-3.0","AceTimer-3.0")
 
 local MAX_ACCOUNT_MACROS, MAX_CHARACTER_MACROS = 36, 18
@@ -13,56 +13,42 @@ maxMacros = MAX_ACCOUNT_MACROS+MAX_CHARACTER_MACROS
 
 
 function MPS:OnInitialize()
-   MPdb = LibStub("AceDB-3.0"):New("ProfilesMacros",nil,"Restore [LOCKED]")
-   MPglobaldb = LibStub("AceDB-3.0"):New("ProfilesMacrosG",nil,"Restore [LOCKED]")
+   MPdb = LibStub("AceDB-3.0"):New("ProfilesMacros",nil,"Default")
+   MPglobaldb = LibStub("AceDB-3.0"):New("ProfilesMacrosG",nil,"Default")
+	MPS:SetupOptions()
 
-   MPS:RegisterEvent("PVP_REWARDS_UPDATE")
-
+	if MPdb.char.MPSLoadProfileAtStart == 1 then
+		MPS:RegisterEvent("PVP_REWARDS_UPDATE")
+	end
 end
 
 function MPS:PVP_REWARDS_UPDATE(event, addonname)
 	-- When logging on for the first time
 	-- Load active profile after
 
+
+	-- Correct WoW version!
 	if select(4, GetBuildInfo()) == WoWversion then
 
-			--MPS:Check_empty_macrotable()
+		MPS:UnregisterEvent("PVP_REWARDS_UPDATE")
 
-			MPS:UnregisterEvent("PVP_REWARDS_UPDATE")
+		-- Save a restore point if empty db
+		if not MPS:ExistsProfile("Restore [LOCKED]") and not MPSSAVERESTORE then
+			MPSSAVERESTORE=1
+			MPS:SaveMacroProfile("Restore [LOCKED]")
+			MPSSAVERESTORE=nil
+		end
 
-			if MPdb.char.Active_profile then
-				MPS:LoadMacroProfile(MPdb.char.Active_profile)
-			end
+		if MPdb.char.Active_profile and MPdb.char.Active_profile ~= "Restore [LOCKED]" then
+			MPS:LoadMacroProfile(MPdb.char.Active_profile)
+		end
 	end
 
+	-- Different WoW version!
 	if select(4, GetBuildInfo()) ~= WoWversion then
 		MPS:UnregisterEvent("PVP_REWARDS_UPDATE")
 		MPS:Echo("This addon is not compatible with this version of WoW. Please update it from curse.com")
 	end
-end
-
--- If a totally new char has NO MACROS
--- then load RESTORE from the global DB
--- else save his macros in restore
-function MPS:Check_empty_macrotable()
-
-	local numperglobal,_ = GetNumMacros()
-
-	-- Macro table empty, attempt to load Global Restore Profile
-	if numperglobal == 0 and MPS:ExistsProfile("Restore [LOCKED]",1) then
-		MPS:ImportGlobalProfile("Restore [LOCKED]")
-		MPS:LoadMacroProfile("Restore [LOCKED]")
-		return 1
-
-	-- No global RESTORE, save
-	elseif not MPS:ExistsProfile("Restore [LOCKED]",1) and numperglobal > 0 then
-		MPS:PreSaveMacroProfile("Restore [LOCKED]")
-		MPS:ExportCharProfile("Restore [LOCKED]")
-		return 2
-	else
-		return nil
-	end
-
 end
 
 -- ProfilesHub: Send message to all slaves that we are now exporting profile
@@ -117,9 +103,6 @@ end
 
 function MPS:SaveMacroProfile(name)
 
-	if name == nil then
-		name = MPdb.char.Active_profile
-	end
 	-- Global DB Code
 	local DB = {}
     if string.find(name,"General:") then
@@ -166,8 +149,15 @@ function MPS:SaveMacroProfile(name)
 		-- No more macros saved
 		if GetMacroInfo(i) then
 			local macro_name, texture, body = GetMacroInfo(i)
-			local textureID = 0
 			local actionBar_pos = {};
+
+			-- Get icon ID instead of path (needed for CreateMacro() in Load!
+			texture = MPS:findIcon(texture)
+
+			-- Icon not found, give question mark!
+			if (type(texture) ~= "number") then
+				texture = '1'
+			end
 
 			-- Save actionbar position
 			for actionID=1, 120 do
@@ -179,26 +169,13 @@ function MPS:SaveMacroProfile(name)
 				end
 			end
 
-			textureID = self:GetFileIDFromPath(texture)
-			--texture = string.gsub(string.upper(texture), "INTERFACE\\ICONS\\", "");
-
 			-- Save the GLOBAL macro to db
-			DB.profile[i] = { macro_name,'3.3.5',body,actionBar_pos,1,i,textureID}
+			DB.profile[i] = { macro_name,'3.3.5',body,actionBar_pos,1,i,texture}
 		end
 	end
 
 	MPS:SendMessage("MPS_Profiles_save",name) -- ProfilesHub
 	return name
-end
-
--- used in save processus (backported for 3.3.5 cause createMacro take fileID and not texture)
-function MPS:GetFileIDFromPath(path)
-	local numIcons = GetNumMacroIcons()
-	for i=1,numIcons do
-		if string.find(path, GetMacroIconInfo(i)) then
-			return i
-		end
-	end
 end
 
 -- This is an alias for ProfilesHub
@@ -252,15 +229,17 @@ function MPS:LoadMacroProfile(name)
 	for index, keys in pairs(DB.profile) do
 		if DB.profile[index] then
 
-			-- Patch <4.2 profiles, change all icons to questionmarks
-			if not keys[7] then
-				DB.profile[index][7] = 1 --'INV_MISC_QUESTIONMARK'
-				keys[7] = 1 --'INV_MISC_QUESTIONMARK'
+			-- Icon not found, give question mark!
+			if not MPS:findIcon(keys[7]) then
+				DB.profile[index][7] = '1'
+				keys[7] = '1'
 			end
 
-			-- BUG: When we have "mod:" in our macro, icon of the mod will not update!
+			-- BUG: When we have these words in our macro, icon of the mod will not update!
 			-- icon = 1
-			if string.find(keys[3],"mod:") or string.find(keys[3],"modifier:") then keys[7] = 1 end
+			if string.find(keys[3],"mod:") 			then keys[7] = '1' end
+			if string.find(keys[3],"modifier") 		then keys[7] = '1' end
+			if string.find(keys[3],"#showtooltip") 	then keys[7] = '1' end
 
 			if index >= charMacros then -- CreateMacro must know if its a global or char macro
 				CreateMacro(keys[1], keys[7], keys[3], 1);
@@ -401,4 +380,40 @@ end
 -- This is an alias for ProfilesHub
 function MPS:Delete(...)
 	MPS:DeleteProfil(...)
+end
+
+-- Get iconID from iconCache
+-- input 1 -> return interface\icons\inv_misc_questionmark
+-- input "interface\\icons\\inv_misc_questionmark"
+local icons_table = {}
+function MPS:findIcon(iconID)
+
+   local numIcons = GetNumMacroIcons()
+   for i=1,numIcons do
+      local lowercase_icons = string.lower(GetMacroIconInfo(i)) -- Normalize icon path from the API
+      icons_table[lowercase_icons] = i
+   end
+
+
+   -- String, iterate the cache and return the number of the icon
+   if type(iconID) == "string" then
+      iconID = string.lower(iconID)
+
+      if icons_table[iconID] then
+         return icons_table[iconID]
+      else
+         return 1
+      end
+   end
+
+   if type(iconID) == "number" then
+      for iconName,icon_value in pairs(icons_table) do
+         if iconID == icon_value then
+
+            return iconName
+         end
+      end
+   end
+
+   return 1
 end

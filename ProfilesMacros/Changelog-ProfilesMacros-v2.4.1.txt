@@ -1,0 +1,33 @@
+------------------------------------------------------------------------
+r135 | fulgerul | 2013-03-30 15:10:27 +0000 (Sat, 30 Mar 2013) | 6 lines
+Changed paths:
+   A /tags/v2.4.1 (from /trunk:134)
+
+Merged revision(s) 132 from dev:
+Updating for WOW 5.2. 
+All tests are green.
+Ace updated.
+........
+
+------------------------------------------------------------------------
+r134 | fulgerul | 2013-03-30 15:10:03 +0000 (Sat, 30 Mar 2013) | 1 line
+Changed paths:
+   M /trunk/Core-Macros.lua
+   M /trunk/ProfilesMacros.toc
+
+Updating TOC and version number.
+------------------------------------------------------------------------
+r133 | fulgerul | 2013-03-30 15:08:45 +0000 (Sat, 30 Mar 2013) | 1 line
+Changed paths:
+   M /trunk
+   M /trunk/Core-Macros.lua
+   M /trunk/Libs/AceDBOptions-3.0/AceDBOptions-3.0.lua
+   M /trunk/Libs/AceGUI-3.0/widgets/AceGUIContainer-BlizOptionsGroup.lua
+   M /trunk/Libs/AceGUI-3.0/widgets/AceGUIContainer-InlineGroup.lua
+   M /trunk/Libs/AceGUI-3.0/widgets/AceGUIWidget-ColorPicker.lua
+   M /trunk/Libs/AceHook-3.0/AceHook-3.0.lua
+   M /trunk/Libs/AceTimer-3.0/AceTimer-3.0.lua
+   M /trunk/ProfilesMacros.toc
+
+Merge from dev.
+------------------------------------------------------------------------
